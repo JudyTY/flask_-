@@ -1,0 +1,11 @@
+{# 点击排行的宏,要在index页面和detail页面中显示,需传参数新闻列表 #}
+{% macro  click_count(news_list) %}
+    <div class="rank_title">
+        <h3>点击排行</h3>
+    </div>
+    <ul class="rank_list">
+        {% for news in news_list %}
+        <li><span class="count{{ loop.index }}">{{ loop.index }}</span><a href="/{{ news.id }}">{{ news.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

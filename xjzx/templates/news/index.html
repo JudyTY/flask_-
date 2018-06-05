@@ -1,0 +1,39 @@
+{% extends 'news/base.html' %}
+    {% block head %}
+    <script type="text/javascript" src="/static/news/js/index.js"></script>
+    {% endblock %}
+    {% block menu %}
+        <ul class="menu fl">
+            <li class="active" data-cid="0"><a href="javascript:;">最新</a></li>
+            {#  新闻分类菜单 #}
+            {%  for category in category_list %}
+                <li data-cid="{{ category.id }}"><a href="javascript:;">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
+    {% block body1 %}
+    <div class="conter_con">
+        {#  以下为被vue接管的列表  #}
+        <ul class="list_con fl">
+            <li v-for="news in news_list">
+                <a :href="'/'+news.id" class="news_pic fl">
+                    <img :src="news.pic_url">
+                </a>
+                <a :href="'/'+news.id" class="news_title fl">[[news.title]]</a>
+                <a :href="'/'+news.id" class="news_detail fl">[[news.summary]]</a>
+                <div class="author_info fl">
+                    <div class="author fl">
+                        <img :src="news.user_pic_url" alt="author" style="border-radius:15px;width: 30px;height: 30px">
+                        <a :href="'user/'+news.user_id">[[news.user_name]]</a>
+                    </div>
+                    <div class="time fl">[[news.update_time]]</div>
+                </div>
+            </li>
+        </ul>
+        {# 使用click_count文件中点击排行的宏 #}
+        <div class="rank_con fr">
+            {% import 'news/click_count.html'as func %}
+            {{ func.click_count(news_list) }}
+        </div>
+    </div>
+    {% endblock %}
